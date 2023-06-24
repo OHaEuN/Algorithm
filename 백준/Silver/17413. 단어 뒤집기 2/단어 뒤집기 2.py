@@ -1,31 +1,33 @@
 import sys
-s = sys.stdin.readline()
-
-stack=[]
-answer=[]
-bracket=False
-for w in s:
-    if w == '<':
-        bracket = True
-    elif w == '>':
-        answer.append(w)
-        bracket = False
+inputf =sys.stdin.readline
+S = inputf().strip()
+stack = []
+answer = []
+is_in = False
+for s in S:
+    if s == "<":
+        if stack:
+            for _ in range(len(stack)):
+                answer.append(stack.pop())
+        is_in = True
+    elif s == ">":
+        is_in = False
+        answer.append(s)
         continue
-    elif w == ' ':
-        for i in range(0, len(stack)):
-            answer.append(stack.pop())
-        answer.append(w)
+    elif is_in == False and s == " ":
+        if stack:
+            for _ in range(len(stack)):
+                answer.append(stack.pop())
+        answer.append(" ")
         continue
-        
-    if bracket == False:
-        stack.append(w)
-    elif bracket == True:
-        for i in range(0, len(stack)):
-            answer.append(stack.pop())
-        answer.append(w)
+    
+    if is_in:
+        answer.append(s)
+    else:
+        stack.append(s)
 
-stack.pop()
-for i in range(0, len(stack)):
-    answer.append(stack.pop())
+if stack:
+    for _ in range(len(stack)):
+        answer.append(stack.pop())
 
 print(''.join(answer))

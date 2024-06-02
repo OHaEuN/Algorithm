@@ -1,9 +1,15 @@
-K,N = map(int,input().split())
+import sys
+
+inputf = sys.stdin.readline
+
+K,N = map(int,inputf().split())
 arr=[]
 for _ in range(K):
     arr.append(int(input()))
+
 start=1
 end=max(arr)
+
 while start<=end:
     mid = (start+end)//2
     cnt = 0
@@ -13,4 +19,5 @@ while start<=end:
         start = mid+1
     else:
         end = mid-1
+        
 print(end)

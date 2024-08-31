@@ -1,14 +1,13 @@
 import sys
-inputf= sys.stdin.readline
-N = int(inputf())
-arr = []
-for _ in range(N):
-    arr.append(list(map(int,inputf().split())))
-answer = []
-for i in arr:
-    rank = 1
-    for j in arr:
-        if i[0] < j[0] and i[1] < j[1]:
+input = sys.stdin.readline
+N = int(input())
+arr = [list(map(int, input().split())) for _ in range(N)]
+ans = []
+for i in range(N):
+    rank = 1 
+    for j in range(N):
+        if i != j:  
+            if arr[i][0] < arr[j][0] and arr[i][1] < arr[j][1]:
                 rank += 1
-    answer.append(rank)
-print(*answer)
+    ans.append(rank)
+print(*ans)

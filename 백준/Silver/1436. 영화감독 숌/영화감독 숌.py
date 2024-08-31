@@ -1,10 +1,12 @@
-n = int(input())
-answer = 666
-while n:
-    if "666" in str(answer):
-        n -=1
-        if n!=0:
-            answer +=1
-    else:
-        answer +=1
-print(answer)
+import sys
+inputf = sys.stdin.readline
+N = int(inputf())
+num = 666
+cnt = 0
+while True:
+    if '666' in str(num):
+        cnt +=1
+    if cnt == N:
+        print(num)
+        break
+    num +=1

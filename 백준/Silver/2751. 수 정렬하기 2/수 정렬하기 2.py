@@ -1,9 +1,7 @@
 import sys
-input=sys.stdin.readline
-n = int(input())
-arr =[]
-for _ in range(n):
-    arr.append(int(input()))
+inputf = sys.stdin.readline
+N = int(inputf())
+arr = [int(inputf()) for _ in range(N)]
 arr.sort()
 for i in arr:
     print(i)

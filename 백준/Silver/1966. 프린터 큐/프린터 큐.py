@@ -1,27 +1,23 @@
-from collections import deque
-n=int(input())
-answer =[]
-for _ in range(n):
-    cnt = 1
-    N,index=map(int,input().split())
-    queue = deque(list(map(int,input().split())))
-    while queue:
-        maxnum = max(queue)
-        popnum = queue.popleft()
-        if index == 0:
-            if popnum<maxnum:
-                queue.append(popnum)
-                index = len(queue)-1
-            else:
+import sys
+
+inputf=sys.stdin.readline
+
+T = int(inputf())
+for _ in range(T):
+    N, M = map(int,inputf().split())
+    q = list(map(int,inputf().split()))
+    ans = 1
+    cnt = 0
+    while q:
+        max_n = max(q)
+        cur = q.pop(0)
+        if max_n == cur:
+            cnt+=1
+            if M == 0:
+                print(cnt)
                 break
         else:
-            if popnum<maxnum:
-                queue.append(popnum)
-                index-=1
-            else:
-                index-=1
-                cnt+=1
-    answer.append(cnt)
-    
-for i in answer:
-    print(i)
+            q.append(cur)
+            if M == 0:
+                M = len(q)
+        M -= 1

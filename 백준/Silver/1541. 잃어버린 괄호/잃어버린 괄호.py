@@ -1,35 +1,26 @@
 import sys
 inputf = sys.stdin.readline
-Line = inputf().strip()
-arr = []
-queue = []
-for l in Line:
-    if l == "-" or l == "+":
-        arr.append(int("".join(queue)))
-        queue = []
-        arr.append(l)
+S = inputf().rstrip()
+q  = []
+num = []
+op = []
+minus = []
+for s in S:
+    if s == "+" or s =="-":
+        num.append(int(''.join(q)))
+        op.append(s)
+        q = []
     else:
-        queue.append(l)
-if len(queue)>0:
-    arr.append(int("".join(queue)))
-    queue = []
-is_minus = False
-answer = []
-for i in range(len(arr)):
-    if arr[i] == "-":
-        if is_minus:
-            answer.append(sum(queue)*-1)
-            queue =[]
-        else:
-            is_minus=True
-    elif arr[i] == "+":
-        continue
-    else:
-        if is_minus:
-            queue.append(arr[i])
-        else:
-            answer.append(arr[i])
+        q.append(s)
+if q:
+    num.append(int(''.join(q)))
 
-if len(queue)>0:
-    answer.append(sum(queue)*-1)
-print(sum(answer))
+# 연산자가 - 인 경우를 만나면 다음 - 를 만날 때까지 minus[i]에 값을 더해가면서 저장, 가장 큰 음수 값을 구함
+for i in range(len(op)):
+    if op[i] == "-":
+        minus.append(num[i+1])
+    else:
+        if minus:
+            minus[-1] += num[i+1]
+
+print(sum(num)-sum(minus)*2)

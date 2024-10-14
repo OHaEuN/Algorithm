@@ -1,14 +1,15 @@
 import sys
-inputf= sys.stdin.readline
+inputf = sys.stdin.readline
 
-N,T = map(int,inputf().split())
-value =[] 
-for _ in range(N):
-    value.append(int(inputf()))
-
+N,K = map(int,inputf().split())
+p = []
 ans = 0
+for _ in range(N):
+    p.append(int(inputf()))
+
 for i in range(N-1,-1,-1):
-    if (value[i]<=T):
-        ans += T//value[i]
-        T -= (T//value[i])*value[i]
+    if K >= p[i]:
+        n = K//p[i]
+        K -= n*p[i]
+        ans += n
 print(ans)

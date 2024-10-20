@@ -1,33 +1,37 @@
 import sys
 inputf = sys.stdin.readline
-N,M = map(int,inputf().split())
-matrix = []
-mx,my = 0,0
-for _ in range(N):
-    matrix.append(list(map(int,inputf().split())))
-for i in range(N):
-    if 2 in matrix[i]:
-        my=i
-        mx=matrix[i].index(2)
-visited=[[0 for _ in range(M)] for _ in range(N)]
-answer =[[0 for _ in range(M)] for _ in range(N)]
-dx = [0,0,1,-1]
-dy = [1,-1,0,0]
-queue = [(mx,my)]
-while queue:
-    x, y = queue.pop(0)
-    visited[y][x] = 1
-    for i in range(4):
-        X = x+dx[i]
-        Y = y+dy[i]
-        if 0<=X<M and 0<=Y<N:
-            if matrix[Y][X]==1 and visited[Y][X]==0:
-                queue.append((X,Y))
-                visited[Y][X] = 1
-                answer[Y][X] = answer[y][x]+1
-for i in range(N):
-    for j in range(M):
-        if visited[i][j]==0 and matrix[i][j]!=0:
-            answer[i][j]=-1
-for i in range(N):
+from collections import deque
+
+n,m = map(int,inputf().split())
+arr = []
+l = ()
+for i in range(n):
+    row = list(map(int,inputf().split()))
+    arr.append(row)
+    if not l and 2 in row:
+        l = (row.index(2),i)
+
+visited = [[0 for _ in range(m)] for _ in range(n)]
+answer = [[0 for _ in range(m)] for _ in range(n)]
+d =[(1,0),(-1,0),(0,1),(0,-1)]
+def bfs(l):
+    tx,ty = l
+    q=deque([(tx,ty,0)])
+    visited[ty][tx] = 1
+    while q:
+        x,y,cnt = q.popleft()
+        for dx,dy in d:
+            nx,ny = x+dx,y+dy
+            if 0<=nx<m and 0<=ny<n and not visited[ny][nx]:
+                visited[ny][nx] = 1
+                if arr[ny][nx]==1:
+                    answer[ny][nx] = max(answer[ny][nx],cnt+1)
+                    q.append((nx,ny,cnt+1))
+
+bfs(l)
+
+for i in range(n):
+    for j in range(m):
+        if not visited[i][j] and arr[i][j] == 1:
+            answer[i][j] = -1
     print(*answer[i])

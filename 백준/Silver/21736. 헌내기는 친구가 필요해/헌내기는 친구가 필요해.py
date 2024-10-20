@@ -1,35 +1,31 @@
 import sys
 inputf = sys.stdin.readline
-sys.setrecursionlimit(10**7)
+from collections import deque
 N,M = map(int,inputf().split())
-campus = []
-visited=[[0]*(M) for _ in range(N)]
-# I 위치 파악
-ix,iy = 0,0
+arr=[]
+l = () # 도연이 위치 (x,y)
 for i in range(N):
-    row=inputf().strip()
-    if "I" in row:
-        iy = i
-    campus.append(row)
-ix = campus[iy].index("I")
+    row = list(inputf().rstrip())
+    arr.append(row)
+    if not l and "I" in row:
+        l = (row.index("I"),i)
 
-dx = [0,0,1,-1]
-dy = [1,-1,0,0]
-count = 0
-def findP(x,y):
-    global visited
-    global count
-    visited[y][x] = 1
-    for i in range(4):
-        mx = x+dx[i]
-        my = y+dy[i]
-        if 0<=mx<M and 0<=my<N:
-            if visited[my][mx] == 0 and campus[my][mx] !="X":
-                if campus[my][mx] == "P":
-                    count+=1
-                findP(mx,my)
-findP(ix,iy)
-if count>0:
-    print(count)
-else: 
-    print("TT")
+visited=[[0 for _ in range(M)] for _ in range(N)]
+d =[(1,0),(-1,0),(0,1),(0,-1)]
+def bfs(l):
+    q =deque([l])
+    visited[l[1]][l[0]] = 1
+    cnt = 0
+    while q:
+        x, y = q.popleft()
+        if arr[y][x] == "P":
+            cnt += 1
+        for dx, dy in d:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < M and 0 <= ny < N and not visited[ny][nx] and arr[ny][nx] != "X":
+                visited[ny][nx] = 1 
+                q.append((nx, ny))
+
+    return cnt if cnt > 0 else "TT"
+
+print(bfs(l))

@@ -1,9 +1,7 @@
 import sys
 inputf = sys.stdin.readline
-from collections import deque
 
 T = int(inputf())
-
 for _ in range(T):
     p = inputf().strip()
     n = int(inputf())
@@ -11,26 +9,27 @@ for _ in range(T):
     
     if n == 0:
         arr = []
-
-    d = True
-    error = False
-
-    for cmd in p:
-        if cmd == 'R':
-            d = not d
-        elif cmd == 'D':
-            if not arr:
-                error = True
-                break
-            if d:
-                arr.pop(0)
-            else:
-                arr.pop()
-
-    if error:
-        print("error")
     else:
-        if d:
-            print('[' + ','.join(arr) + ']')
-        else:
-            print('[' + ','.join(reversed(arr)) + ']')
+        arr = list(map(int, arr)) if arr[0] else []
+
+    R = False 
+
+    try:
+        for i in p:
+            if i == "R":
+                R = not R  
+            elif i == "D":
+                if arr:
+                    if R:
+                        arr.pop() 
+                    else:
+                        arr.pop(0) 
+                else:
+                    raise IndexError  
+    except IndexError:
+        print("error")
+        continue
+    
+    if R:
+        arr.reverse()
+    print('[' + ','.join(map(str, arr)) + ']')

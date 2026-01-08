@@ -1,13 +1,13 @@
 function solution(brown, yellow) {
-    const sum = brown + yellow;
-    
-    for (let height = 3; height <= brown; height++){
-        if (sum % height === 0){
-            const width = sum / height
-            
-            if ((width-2)*(height-2) === yellow){
-                return [width,height]
+    const size = brown+yellow;
+    let answer = [];
+    for (i = 3; i <= size/3; i++){
+        if (size % i === 0){
+            if ((size/i -2)*(i-2) === yellow){
+                answer = [i,size/i];
             }
         }
     }
+    answer.sort((a,b)=>b-a);
+    return answer;
 }

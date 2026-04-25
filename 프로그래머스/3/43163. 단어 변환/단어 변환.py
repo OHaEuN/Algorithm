@@ -1,0 +1,26 @@
+from collections import deque
+
+def solution(begin, target, words):
+    if target not in words:
+        return 0
+    
+    def is_adjacent(a,b):
+        diff = sum(1 for x,y in zip(a,b) if x!=y)
+        return diff == 1
+    
+    visited = set()
+    q = deque([(begin,0)])
+    
+    while q:
+        word, cnt = q.popleft()
+        
+        if word == target:
+            return cnt
+        
+        for w in words:
+            if w not in visited and is_adjacent(w,word):
+                visited.add(w)
+                q.append((w, cnt+1))
+                
+    return 0;
+    
